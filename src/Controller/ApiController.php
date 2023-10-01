@@ -72,13 +72,11 @@ class ApiController extends AbstractController
             "price" => 0,
             "code" => 0,
         ];
-        
+
         if (!$product) {
-            return new JsonResponse(
-                "Product with id {$data['product']} not found",
-                400,
-                ["Content-Type" => "application/json"]
-            );
+            $ret_object["code"] = -1;
+            $ret_object["message"] = "Product with id {$data['product']} not found";
+            return $ret_object;
         }
 
         $code = substr($data['taxNumber'], 0, 2);

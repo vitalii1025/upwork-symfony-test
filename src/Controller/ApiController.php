@@ -66,6 +66,13 @@ class ApiController extends AbstractController
     private function calculatePrice(EntityManagerInterface $em, array $data = [])
     {
         $product = $em->getRepository(Product::class)->find($data['product']);
+
+        $ret_object = [
+            "message" => "",
+            "price" => 0,
+            "code" => 0,
+        ];
+        
         if (!$product) {
             return new JsonResponse(
                 "Product with id {$data['product']} not found",

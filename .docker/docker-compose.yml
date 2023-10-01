@@ -1,0 +1,50 @@
+version: "3"
+
+services:
+    db:
+        image: mysql:8.0.32
+        platform: linux/x86_64
+        volumes:
+            - "db_app:/var/lib/mysql"
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: symfony_api
+            MYSQL_USER: root
+            MYSQL_PASSWORD: root
+            MYSQL_HOST: db
+        ports:
+            - 3306:3306
+        networks:
+            - symfony_app
+    php:
+        build:
+            context: ./php
+            args:
+                TIMEZONE: ${TIMEZONE}
+        volumes:
+            - ../:/var/www/symfony:cached
+            - symfony_app_var:/var/www/symfony/var
+            - symfony_app_vendor:/var/www/symfony/vendor
+        networks:
+            - symfony_app
+    nginx:
+        build:
+            context: ./nginx
+        volumes:
+            - ../:/var/www/symfony:cached
+            - symfony_app_var:/var/www/symfony/var
+            - symfony_app_vendor:/var/www/symfony/vendor
+        ports:
+            - "80:80"
+        networks:
+            - symfony_app
+        env_file:
+            - .env.nginx.local
+
+volumes:
+    symfony_app_var:
+    symfony_app_vendor:
+    db_app:
+
+networks:
+    symfony_app:

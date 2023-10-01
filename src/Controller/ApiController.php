@@ -48,13 +48,20 @@ class ApiController extends AbstractController
             );
         }
 
-        $price = $this->calculatePrice($em, $data);
-
-        return new JsonResponse(
-            $price,
-            200,
-            ["Content-Type" => "application/json"]
-        );
+        $retData = $this->calculatePrice($em, $data);
+        if ($retData["code"] == 0) {
+            return new JsonResponse(
+                $retData["price"],
+                200,
+                ["Content-Type" => "application/json"]
+            );
+        } else {
+            return new JsonResponse(
+                ["error" => $retData["message"]],
+                400,
+                ["Content-Type" => "application/json"]
+            );           
+        }
     }
 
     /**

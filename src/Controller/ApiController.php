@@ -32,6 +32,7 @@ class ApiController extends AbstractController
         $jsonData = file_get_contents('php://input');
         // Decode the JSON data into a PHP associative array
         $data = json_decode($jsonData, true);
+        dd($data);
         $errors = [];
         $violations = $validationService->validateCalcRequest($data);
         foreach ($violations as $violation) {

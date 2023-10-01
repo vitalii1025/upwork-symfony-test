@@ -42,7 +42,7 @@ class ApiController extends AbstractController
 
         if (count($errors) > 0) {
             return new JsonResponse(
-                $errors,
+                ["error" => implode(' ', $errors)],
                 400,
                 ["Content-Type" => "application/json"]
             );

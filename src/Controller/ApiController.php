@@ -144,8 +144,8 @@ class ApiController extends AbstractController
                 ["Content-Type" => "application/json"]
             );
         }
-        $price = $this->calculatePrice($em, $data);
-        $resp = $paymentService->pay($price, $data['paymentProcessor']);
+        $ret_object = $this->calculatePrice($em, $data);
+        $resp = $paymentService->pay($ret_object['price'], $data['paymentProcessor']);
         return new JsonResponse(
             $resp,
             200,

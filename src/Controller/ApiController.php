@@ -105,7 +105,9 @@ class ApiController extends AbstractController
             }
         }
 
-        return $price;
+        $ret_object["price"] = $price;
+
+        return $ret_object;
     }
 
     /**

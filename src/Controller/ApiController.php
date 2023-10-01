@@ -29,7 +29,9 @@ class ApiController extends AbstractController
     #[Route('/calculate-price', name: 'calculate_price')]
     public function calculateAction(ApiValidationService $validationService, Request $request, EntityManagerInterface $em): JsonResponse
     {
-        $data = $request->toArray();
+        $jsonData = file_get_contents('php://input');
+        // Decode the JSON data into a PHP associative array
+        $data = json_decode($jsonData, true);
         $errors = [];
         $violations = $validationService->validateCalcRequest($data);
         foreach ($violations as $violation) {
@@ -108,7 +110,9 @@ class ApiController extends AbstractController
     #[Route('/purchase', name: 'purchase')]
     public function purchaseAction(ApiValidationService $validationService, Request $request, EntityManagerInterface $em, PaymentService $paymentService): JsonResponse
     {
-        $data = $request->toArray();
+        $jsonData = file_get_contents('php://input');
+        // Decode the JSON data into a PHP associative array
+        $data = json_decode($jsonData, true);
         $violations = $validationService->validateBuyRequest($data);
         $errors = [];
         foreach ($violations as $violation) {

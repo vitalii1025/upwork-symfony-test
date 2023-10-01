@@ -56,7 +56,7 @@ class ApiValidationService
         ];
         $taxCodeConstraints = [
             new Assert\NotBlank([], 'The `taxNumber` field can not be blank'),
-            new Validator\TaxCode()
+            new Validator\TaxCode(),
             new Assert\Regex([
                 'pattern' => '/^DE\d{9}$|^IT\d{11}$|^GR\d{9}$|^FR[A-Za-z]{2}\d{9}$/',
                 'message' => 'Invalid tax number format.',

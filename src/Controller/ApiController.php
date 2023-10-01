@@ -89,13 +89,11 @@ class ApiController extends AbstractController
         $code = substr($data['taxNumber'], 0, 2);
         $country = $em->getRepository(Country::class)->findOneBy(['code' => $code]);
         if (!$country) {
-            return new JsonResponse(
-                "Country with taxNumber {$code} not found",
-                400,
-                ["Content-Type" => "application/json"]
-            );
+            $ret_object["code"] = -1;
+            $ret_object["message"] = "Country with taxNumber {$code} not found";
+            return $ret_object;
         }
-
+        
         $coupon = $em->getRepository(Coupon::class)->findOneBy(['code' => $data['couponCode']]);
         $price = $product->getPrice() + (($country->getTax() / 100) * $product->getPrice());
         if ($coupon) {
